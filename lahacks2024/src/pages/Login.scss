@@ -1,0 +1,92 @@
+.login {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        height: 10vh;
+        background-color: #535d9d;
+    }
+
+    .title {
+        font-size: 40px;
+        font-family: 'Georgia';
+        color: #e6e8f2;
+        position:absolute;   
+        font-weight: bold;
+        left: 75px;
+        top: 8px;
+    }
+
+    .login-main {
+        display: flex;
+        flex-direction: row;
+
+        .login-left {
+            height: 90vh;
+            width: 50%;
+        }
+    
+        .gible-hi {
+            height: 90vh;
+            width: 50%;
+            background-color: #bac1f3;
+
+            .gible {
+                transform: rotate(25deg);
+                width: 300px;
+                height: 300px;
+                position:absolute;   
+                left: 1090px;         
+                top:350px;
+            }
+            .welcome {
+                width: 400px;
+                height: 250px;
+                position:absolute;   
+                left: 740px;         
+                top: 170px;
+            }
+        }
+    }
+}
+
+.font-georgia-body {
+    font-family:'Georgia';
+    position:absolute;   
+    left: 100px;         
+    top: 230px;
+    font-size: 24px;
+}
+
+.font-georgia-login {
+    font-family:'Georgia';
+    position:absolute;   
+    left: 100px;         
+    top: 150px;
+    font-size: 35px;
+}
+
+.input-width {
+    font-family:'Georgia';
+    font-size: 20px;
+    width: 400px;
+    border-color: #7c87ca;
+    border-radius: 5px;
+}
+
+.create-account-link {
+    position:absolute;   
+    left: 180px;         
+    top: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sign-in {
+    background-color: #bac1f3;
+    color: black;
+    opacity: 80%;
+    border-width: medium;
+    border-color: #7c87ca;
+}
