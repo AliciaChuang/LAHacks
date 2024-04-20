@@ -1,3 +1,5 @@
+@import '~leaflet/dist/leaflet.css';
+
 .font-georgia-create {
     font-family:'Georgia';
     font-size: 25px;  
@@ -16,4 +18,9 @@
     border-color: #7c87ca;
     font-weight: bold;
     font-size: 18px;
+}
+
+.leaflet-container {
+    height: 100vh;
+    width: 300px;
 }

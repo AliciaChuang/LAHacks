@@ -9,6 +9,11 @@ import {TimePicker} from '@mui/x-date-pickers/TimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import {MapContainer, TileLayer, useMapEvents, Marker } from 'react-leaflet'
+import "leaflet/dist/leaflet.css"
+import getMarkerIcon from '../Components/MarkerIcon';
+
+
 
 
 const event_category = [
@@ -26,12 +31,35 @@ const event_category = [
     },
   ];
 
+const category_color = {
+  "Catching": "green",
+  "Raiding": "red",
+  "Trading": "blue",
+};
 
-export default function CreatePostModal() {
+const SetMarker = (props) => {
+    useMapEvents({
+        click(e) {
+            props.setMarkerLocation(e.latlng);
+        },
+    });
+    return null;
+};
+
+export default function CreatePostModal(props) {
   const [show, setShow] = useState(false);
+  const [markerLocation, setMarkerLocation] = useState(null);
+  const [markerColor, setMarkerColor] = useState('purple');
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setMarkerLocation(null);
+    setMarkerColor('purple');
+  }
   const handleShow = () => setShow(true);
+  const handleSelectCategory = (e) => {
+    setMarkerColor(category_color[e.target.value])
+  }
 
   return (
     <>
@@ -64,6 +92,7 @@ export default function CreatePostModal() {
                 defaultValue=""
                 helperText="Please select your event category"
                 variant="standard"
+                onChange={handleSelectCategory}
                 >
                 {event_category.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
@@ -85,7 +114,14 @@ export default function CreatePostModal() {
             <br></br>
             Location
             <br></br>
-            Insert map here
+            <MapContainer id="map" center={[props.latitude, props.longitude]} zoom={15}>
+              <SetMarker setMarkerLocation={setMarkerLocation}/>
+              {markerLocation !== null ? <Marker position={markerLocation} icon={getMarkerIcon(markerColor)}/> : null}
+              <TileLayer 
+                  attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                  url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+              />
+            </MapContainer>
             <br></br>
             <br></br>
             Description
