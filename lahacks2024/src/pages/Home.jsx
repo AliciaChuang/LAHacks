@@ -13,7 +13,7 @@ import getMarkerIcon from '../Components/MarkerIcon';
 import { Link } from "react-router-dom"
 import Button from 'react-bootstrap/Button';
 import { authContext } from "../auth"
-
+import { EventMarkersContext, EventMarkersProvider } from '../Components/EventMarkers'
 const Recenter = (props) => {
     const map = useMap();
 
@@ -44,6 +44,8 @@ export function Home() {
     const [category, setCategory] = useState([])
     const [startTime, setStartTime] = useState(dayjs('2022-04-17T00:00'))
     const [endTime, setEndTime] = useState(dayjs('2022-04-17T23:00'))
+
+    const eventMarkers = useContext(EventMarkersContext)["eventMarkers"]
 
     const handleFilterChange = () => {
         const new_filters = {
@@ -121,8 +123,12 @@ export function Home() {
         description: "Come catch bellsprouts with me! Will be walking around UCLA campus for ~2 hours."
     };
 
+    const category_color_marker = {
+        "Catching": "green",
+        "Raiding": "red",
+        "Trading": "blue",
+    };
 
-  
 
     return (
         <div className="home">
@@ -181,7 +187,11 @@ export function Home() {
                 
                 <MapContainer center={[latitude, longitude]} zoom={17}>
                     <Recenter latitude={latitude} longitude={longitude} setLatitude={setLatitude} setLongitude={setLongitude} />
-                    <Marker position={[latitude, longitude]} icon={getMarkerIcon('skyblue')}/>
+                    <EventMarkersProvider>
+                        {eventMarkers.map((eventMarker) => (
+                            <Marker position={eventMarker.position} icon={getMarkerIcon(category_color_marker[eventMarker.event_category])}/>
+                        ))}
+                    </EventMarkersProvider>
                     <TileLayer 
                         attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                         url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
