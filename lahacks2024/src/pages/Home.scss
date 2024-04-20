@@ -1,0 +1,31 @@
+.home {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        height: 10vh;
+        background-color: #535d9d;
+    }
+
+    .home-main {
+        display: flex;
+        flex-direction: row;
+
+        .filter {
+            height: 90vh;
+            width: 30vw;
+            background-color: #7c87ca;
+        }
+    
+        .leaflet-container {
+            height: 90vh;
+            width: 40vw;
+        }
+    
+        .description {
+            height: 90vh;
+            width: 30vw;
+            background-color: #ced2f0;
+        }
+    }
+}
