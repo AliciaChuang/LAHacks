@@ -47,7 +47,12 @@ const SetMarker = (props) => {
 };
 
 export default function CreatePostModal(props) {
+  const user = props.user
   const [show, setShow] = useState(false);
+  const [eventName, setEventName] = useState('');
+  const [category, setCategory] = useState('');
+  const [eventTime, setEventTime] = useState('');
+  const [description, setDescription] = useState('');
   const [markerLocation, setMarkerLocation] = useState(null);
   const [markerColor, setMarkerColor] = useState('purple');
 
@@ -56,9 +61,27 @@ export default function CreatePostModal(props) {
     setMarkerLocation(null);
     setMarkerColor('purple');
   }
+
+  const handleCreate = () => {
+    const event_info = {
+      "user_id": user,
+      "event_name": eventName,
+      "category": category,
+      "event_time": eventTime,
+      "location": markerLocation,
+      "description": description
+    }
+    // Call API
+    console.log(event_info);
+    setShow(false);
+    setMarkerLocation(null);
+    setMarkerColor('purple');
+  }
+
   const handleShow = () => setShow(true);
   const handleSelectCategory = (e) => {
-    setMarkerColor(category_color[e.target.value])
+    setMarkerColor(category_color[e.target.value]);
+    setCategory(e.target.value);
   }
 
   return (
@@ -80,6 +103,7 @@ export default function CreatePostModal(props) {
             <TextField required
               variant="standard"
               fullWidth
+              onChange={(e) => {setEventName(e.target.value)}}
               id="event_name_text">
             </TextField>
             <br></br>
@@ -107,6 +131,7 @@ export default function CreatePostModal(props) {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <TimePicker
                     defaultValue={dayjs('2022-04-17T00:00')}
+                    onChange={(e) => {setEventTime(`${e.get('hour')}:${e.get('minute')}`)}}
                     ampm={false}
                     />
             </LocalizationProvider>
@@ -129,6 +154,7 @@ export default function CreatePostModal(props) {
             <TextField
                 id="description-text"
                 multiline
+                onChange={(e) => {setDescription(e.target.value)}}
                 fullWidth
                 rows={4}
                 />
@@ -140,7 +166,7 @@ export default function CreatePostModal(props) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleCreate}>
             Create Event
           </Button>
         </Modal.Footer>

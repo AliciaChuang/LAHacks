@@ -12,6 +12,13 @@ const color_map = {
 }
 
 export default function EventView({event_info, user}) {
+    const [interest, setInterest] = React.useState(false);
+    const handleInterest = () => {
+        setInterest(true);
+        alert("Subscribed to event")
+    }
+
+
     return (
       <Box
         alignItems="center"
@@ -38,8 +45,7 @@ export default function EventView({event_info, user}) {
         </div>
         <div>
             <Button className="interested"
-                onClick={() => {
-                       alert('clicked');}}>
+                onClick={handleInterest}>
                 Interested
             </Button>
         </div>

@@ -35,7 +35,6 @@ export function Login() {
             <div className="title">
                 Pokémon Go Touch Grass
             </div>
-            <div>You are {JSON.stringify(user, null, 2)}</div>
         </div>
         <div className="login-main">
             <div className="login-left">
