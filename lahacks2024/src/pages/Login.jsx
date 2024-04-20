@@ -4,16 +4,23 @@ import "./Login.scss"
 import gible from '../Assets/gible.png';
 import welcome from '../Assets/welcome.png';
 import TextField from '@mui/material/TextField';
-import React from 'react';
+import React, { useCallback, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
+import { authContext } from "../auth";
 
 export function Login() {
+    const [user, setUser] = useContext(authContext)
+
+    const login = () => {
+        setUser({ id: '1234' })
+    }
     return (
         <div className="login">
         <div className="header">
             <div className="title">
                 Pokémon Go Touch Grass
             </div>
+            <div>You are {JSON.stringify(user, null, 2)}</div>
         </div>
         <div className="login-main">
             <div className="login-left">
@@ -46,6 +53,7 @@ export function Login() {
                             <Button className="sign-in"
                                 onClick={() => {
                                     alert('clicked');
+                                    login()
                                 }}
                                 >
                                 Sign In

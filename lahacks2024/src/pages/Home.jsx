@@ -2,17 +2,38 @@ import {MapContainer, TileLayer, useMap} from "react-leaflet"
 import CreatePostModal from "../Components/CreatePostModal"
 import "leaflet/dist/leaflet.css"
 import "./Home.scss"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import MultiSelect from "../Components/MultiSelect"
 import EventView from "../Components/EventView"
 import {TimePicker} from '@mui/x-date-pickers/TimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import { authContext } from "../auth"
+
+const Recenter = (props) => {
+    const map = useMap();
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition( (position) => {
+            props.setLatitude(position.coords.latitude);
+            props.setLongitude(position.coords.longitude);
+            map.panTo([props.latitude, props.longitude]);
+        }, function (e) {
+            //Your error handling here
+        }, {
+            enableHighAccuracy: true
+        });
+    });
+
+    return null;
+}
 
 export function Home() {
     const [latitude, setLatitude] = useState(33.645887)
     const [longitude, setLongitude] = useState(-117.842694)
+    const [user] = useContext(authContext)
+    console.log(user)
 
     const event_type = [
         'Owner',
@@ -44,22 +65,7 @@ export function Home() {
     };
 
 
-    const Recenter = () => {
-        const map = useMap();
-
-        useEffect(() => {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                setLatitude(position.coords.latitude);
-                setLongitude(position.coords.longitude);
-                map.panTo([latitude, longitude]);
-            }, function (e) {
-                //Your error handling here
-            }, {
-                enableHighAccuracy: true
-            });
-        });
-        return null;
-    }
+  
 
     return (
         <div className="home">
@@ -68,6 +74,7 @@ export function Home() {
                     Pokémon Go Touch Grass
                 </div>
             </div>
+            
             <div className="home-main">
                 <div className="filter">
     
@@ -106,8 +113,9 @@ export function Home() {
                         <CreatePostModal></CreatePostModal>
                     </div>
                 </div>
+                
                 <MapContainer center={[latitude, longitude]} zoom={17}>
-                    <Recenter />
+                    <Recenter latitude={latitude} longitude={longitude} setLatitude={setLatitude} setLongitude={setLongitude} />
                     <TileLayer 
                         attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                         url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
