@@ -7,8 +7,19 @@ import "./CreateAccountModal.css"
 export default function CreateAccountModal() {
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  function handleClose() {
+    // Store new user info in database
+    const user_info = {"user_id": username, "password": password, "friend_code": friend_code, "game_name":game_name}
+    console.log(user_info)
+    setShow(false);
+  }
   const handleShow = () => setShow(true);
+
+  // Create account variables
+  const [username, setUsername] = useState(" ");
+  const [password, setPassword] = useState(" ");
+  const [friend_code, setFriendCode] = useState(" ");
+  const [game_name, setGameName] = useState(" ");
 
   return (
     <>
@@ -28,6 +39,7 @@ export default function CreateAccountModal() {
             <br></br>
             <TextField required
               fullWidth
+              onChange={(e) => {setUsername(e.target.value)}}
               id="user_id_text">
             </TextField>
             <br></br>
@@ -36,6 +48,7 @@ export default function CreateAccountModal() {
             <br></br>
             <TextField required
               fullWidth
+              onChange={(e) => {setPassword(e.target.value)}}
               id="password_text">
             </TextField>
             <br></br>
@@ -44,6 +57,7 @@ export default function CreateAccountModal() {
             <br></br>
             <TextField 
               fullWidth
+              onChange={(e) => {setFriendCode(e.target.value)}}
               id="friend_code_text">
             </TextField>
             <br></br>
@@ -52,6 +66,7 @@ export default function CreateAccountModal() {
             <br></br>
             <TextField 
               fullWidth
+              onChange={(e) => {setGameName(e.target.value)}}
               id="game_name_text">
             </TextField>
             <br></br>

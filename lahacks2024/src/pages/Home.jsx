@@ -1,4 +1,3 @@
-// import Leaflet from 'leaflet'
 import {MapContainer, TileLayer, useMap, Marker } from 'react-leaflet'
 import CreatePostModal from "../Components/CreatePostModal"
 import "leaflet/dist/leaflet.css"
@@ -6,14 +5,13 @@ import "./Home.scss"
 import { useEffect, useState } from "react"
 import MultiSelect from "../Components/MultiSelect"
 import EventView from "../Components/EventView"
-import {TimePicker} from '@mui/x-date-pickers/TimePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import getMarkerIcon from '../Components/MarkerIcon';
-// import { authContext } from "../auth"
-// import icon from 'leaflet/dist/images/marker-icon.png';
-// import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import { Link } from "react-router-dom"
+import Button from 'react-bootstrap/Button';
 
 const Recenter = (props) => {
     const map = useMap();
@@ -33,58 +31,62 @@ const Recenter = (props) => {
     return null;
 }
 
-// function getMarkerIcon(color = '') {
-//     return Leaflet.divIcon({
-//         /**
-//          * Adds offset to __marker__ for stacking markers.
-//          */
-//         iconAnchor: [28, 46],
-
-//         /**
-//          * Adds offset to __popup__ for stacking markers.
-//          */
-//         popupAnchor: [17, 46],
-
-//         /**
-//          * Removes styling added by leaflet classes.
-//          */
-//         className: '',
-
-//         /**
-//          * what the marker will look like
-//          */
-//         html: `<div style="position:relative;">
-//              <span style="background-color: ${color};
-//                    width: 1.75rem;
-//                    height: 1.75rem;
-//                    display: block;
-//                    border-radius: 1.9rem 1.9rem 0;
-//                    transform: rotate(45deg);
-//                    border: 1px solid #FFFFFF">
-//              </span>
-//              <div style="width: 1.75rem;
-//                          height: 1.75rem;
-//                          text-align: center; 
-//                          color: white" >
-//              </div>
-//            </div>`,
-//     });
-// }
-
-// let DefaultIcon = L.icon({
-//     iconUrl: icon,
-//     shadowUrl: iconShadow,
-//     iconSize: [28, 46],
-//     iconAnchor: [17, 46]
-// });
-
-// L.Marker.prototype.options.icon = DefaultIcon;
 
 export function Home() {
     const [latitude, setLatitude] = useState(33.645887)
     const [longitude, setLongitude] = useState(-117.842694)
     // const [user] = useContext(authContext)
     console.log(latitude, longitude)
+
+    // Filter variables
+    const [type, setType] = useState([])
+    const [category, setCategory] = useState([])
+    const [startTime, setStartTime] = useState(dayjs('2022-04-17T00:00'))
+    const [endTime, setEndTime] = useState(dayjs('2022-04-17T23:00'))
+
+    const handleFilterChange = () => {
+        const new_filters = {
+            "type": type,
+            "category": category,
+            "start_time": startTime,
+            "end_time": endTime
+        }
+        // call API to update filters
+        console.log(new_filters)
+    }
+
+    const newStartTime = (e) => {
+        setStartTime(e);
+        handleFilterChange();
+    }
+
+    const newEndTime = (e) => {
+        setEndTime(e);
+        handleFilterChange();
+    }
+
+    const newType = (e) => {
+        const new_filters = {
+            "type": e,
+            "category": category,
+            "start_time": startTime,
+            "end_time": endTime
+        }
+        // call API to update filters
+        console.log(new_filters)
+    }
+
+    const newCategory = (e) => {
+        const new_filters = {
+            "type": type,
+            "category": e,
+            "start_time": startTime,
+            "end_time": endTime
+        }
+        // call API to update filters
+        console.log(new_filters)
+    }
+
 
     const event_type = [
         'Owner',
@@ -124,6 +126,12 @@ export function Home() {
                 <div className="title">
                     Pokémon Go Touch Grass
                 </div>
+                <div><Link to="../">
+                        <Button className="sign-out">
+                                Sign Out
+                            </Button>
+                        </Link>
+                    </div>
             </div>
             
             <div className="home-main">
@@ -134,11 +142,11 @@ export function Home() {
                     <div className="filter-position">
                         Event Type
                         <br></br>
-                        <MultiSelect options={event_type} colors={type_color}></MultiSelect>
+                        <MultiSelect options={event_type} colors={type_color} setValue={setType} handleFilterChange={newType}></MultiSelect>
                         <br></br>
                         Event Category
                         <br></br>
-                        <MultiSelect options={event_category} colors={category_color}></MultiSelect>
+                        <MultiSelect options={event_category} colors={category_color} setValue={setCategory} handleFilterChange={newCategory}></MultiSelect>
                         <br></br>
                         Time Range 
                         <br></br>
@@ -147,6 +155,7 @@ export function Home() {
                                 defaultValue={dayjs('2022-04-17T00:00')}
                                 ampm={false}
                                 className="light-bg"
+                                onChange={newStartTime}
                                 />
                         </LocalizationProvider>
                         <br></br>
@@ -157,6 +166,7 @@ export function Home() {
                                 defaultValue={dayjs('2022-04-17T23:00')}
                                 ampm={false}
                                 className="light-bg"
+                                onChange={newEndTime}
                                 />
                         </LocalizationProvider>
                     </div>

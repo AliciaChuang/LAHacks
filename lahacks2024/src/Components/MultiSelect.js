@@ -17,7 +17,7 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function MultipleSelectChip({options, colors}) {
+export default function MultipleSelectChip({options, colors, setValue, handleFilterChange}) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
 
@@ -29,6 +29,8 @@ export default function MultipleSelectChip({options, colors}) {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
+    setValue(typeof value === 'string' ? value.split(',') : value,)
+    handleFilterChange(typeof value === 'string' ? value.split(',') : value,);
   };
 
   return (

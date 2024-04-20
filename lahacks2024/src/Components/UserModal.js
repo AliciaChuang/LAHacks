@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Reviews from './Reviews';
 import "./UserModal.css"
+import {
+    ScrollView,
+  } from 'react-native';
 
 export default function UserModal({num_interested}) {
   const [show, setShow] = useState(false);
@@ -22,9 +26,17 @@ export default function UserModal({num_interested}) {
           <Modal.Title>Attendees</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div>
-            Placeholder for Users + Reviews (will be calling another component)
-          </div>
+            <ScrollView>
+            <div>
+                <Reviews reviewee="Person A"></Reviews>
+                <br></br>
+                <br></br>
+                <Reviews reviewee="Person B"></Reviews>
+                <br></br>
+                <br></br>
+                <Reviews reviewee="Person C"></Reviews>
+            </div>
+            </ScrollView>
         </Modal.Body>
       </Modal>
     </>

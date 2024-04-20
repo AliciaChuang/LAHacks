@@ -4,9 +4,10 @@ import "./Login.scss"
 import gible from '../Assets/gible.png';
 import welcome from '../Assets/welcome.png';
 import TextField from '@mui/material/TextField';
-import React, { useContext } from 'react'; //useCallback
+import React, { useContext, useState } from 'react'; //useCallback
 import Button from 'react-bootstrap/Button';
 import { authContext } from "../auth";
+import { useNavigate } from "react-router-dom";
 
 export function Login() {
     const [user, setUser] = useContext(authContext)
@@ -14,6 +15,23 @@ export function Login() {
     const login = () => {
         setUser({ id: '1234' })
     }
+
+    function validate_login(credentials) {
+        // fetch database credentials
+        // placeholder data
+        const users = [{user_id: "aliciachuang", password: "FloofyBoi<3"}]
+        return users.some(function (item, index) {
+            if (credentials.user_id === item.user_id && credentials.password === item.password){
+                return true;
+            }
+        });
+    }
+    const navigate = useNavigate();
+
+    // Login variables
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
     return (
         <div className="login">
         <div className="header">
@@ -34,14 +52,16 @@ export function Login() {
                         required
                         id="username"
                         className="input-width"
+                        onChange={(e) => {setUsername(e.target.value)}}
                         />
                     <br></br><br></br>
                     Password
                     <br></br>
                     <TextField
                         required
-                        id="username"
+                        id="password"
                         className="input-width"
+                        onChange={(e) => {setPassword(e.target.value)}}
                         />
                     <br></br><br></br>
                     <div className="create-account-link">
@@ -52,8 +72,17 @@ export function Login() {
                         <div>
                             <Button className="sign-in"
                                 onClick={() => {
-                                    alert('clicked');
                                     login()
+                                    console.log({"user_id":username, "password":password});
+                                    const valid_login = validate_login({"user_id":username, "password":password});
+                                    console.log("credential validation results")
+                                    console.log(valid_login)
+                                    if (valid_login) {
+                                        navigate("./home")
+                                    }
+                                    else {
+                                        alert("Invalid credentials")
+                                    }
                                 }}
                                 >
                                 Sign In
