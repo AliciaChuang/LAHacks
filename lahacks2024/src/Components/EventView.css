@@ -21,13 +21,11 @@
     opacity: 80%;
     border-width: medium;
     border-color: #7c87ca;
-    position: absolute;
-    top: 620px;
-    left: 1050px;
 }
 
-.num-interested {
+.footer {
+    display: flex;
+    flex-direction: horizontal;
     position: absolute;
-    top: 620px;
-    left: 1160px;
+    bottom: 80px;
 }

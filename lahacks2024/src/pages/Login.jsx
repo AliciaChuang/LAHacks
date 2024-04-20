@@ -2,7 +2,6 @@
 import CreateAccountModal from "../Components/CreateAccountModal"
 import "./Login.scss"
 import gible from '../Assets/gible.png';
-import welcome from '../Assets/welcome.png';
 import TextField from '@mui/material/TextField';
 import React, { useContext, useState } from 'react'; //useCallback
 import Button from 'react-bootstrap/Button';
@@ -89,7 +88,6 @@ export function Login() {
                 </div>
             </div>
             <div className="gible-hi">
-                <img className="welcome" src={welcome} alt="welcome" />
                 <img className="gible" src={gible} alt="gible" />
             </div>
         </div>

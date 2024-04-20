@@ -43,14 +43,14 @@ export default function EventView({event_info, user}) {
         <div>
             {event_info.description}
         </div>
-        <div>
+        <div className='footer'>
             <Button className="interested"
                 onClick={handleInterest}>
                 Interested
             </Button>
-        </div>
-        <div className="num-interested">
-            <UserModal user={user} num_interested={10}></UserModal>
+            <div className="num-interested">
+                <UserModal user={user} num_interested={10}></UserModal>
+            </div>
         </div>
       </Box>
     );
