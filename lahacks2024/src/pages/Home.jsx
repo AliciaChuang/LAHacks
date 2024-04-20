@@ -2,7 +2,7 @@ import {MapContainer, TileLayer, useMap, Marker } from 'react-leaflet'
 import CreatePostModal from "../Components/CreatePostModal"
 import "leaflet/dist/leaflet.css"
 import "./Home.scss"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import MultiSelect from "../Components/MultiSelect"
 import EventView from "../Components/EventView"
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import getMarkerIcon from '../Components/MarkerIcon';
 import { Link } from "react-router-dom"
 import Button from 'react-bootstrap/Button';
+import { authContext } from "../auth"
 
 const Recenter = (props) => {
     const map = useMap();
@@ -35,7 +36,7 @@ const Recenter = (props) => {
 export function Home() {
     const [latitude, setLatitude] = useState(33.645887)
     const [longitude, setLongitude] = useState(-117.842694)
-    // const [user] = useContext(authContext)
+    const [user] = useContext(authContext)
     console.log(latitude, longitude)
 
     // Filter variables
@@ -49,7 +50,8 @@ export function Home() {
             "type": type,
             "category": category,
             "start_time": startTime,
-            "end_time": endTime
+            "end_time": endTime,
+            "user_id": user
         }
         // call API to update filters
         console.log(new_filters)
@@ -70,7 +72,8 @@ export function Home() {
             "type": e,
             "category": category,
             "start_time": startTime,
-            "end_time": endTime
+            "end_time": endTime,
+            "user_id": user
         }
         // call API to update filters
         console.log(new_filters)
@@ -81,7 +84,8 @@ export function Home() {
             "type": type,
             "category": e,
             "start_time": startTime,
-            "end_time": endTime
+            "end_time": endTime,
+            "user_id": user
         }
         // call API to update filters
         console.log(new_filters)
@@ -171,7 +175,7 @@ export function Home() {
                         </LocalizationProvider>
                     </div>
                     <div className="create-post">
-                        <CreatePostModal latitude={latitude} longitude={longitude}></CreatePostModal>
+                        <CreatePostModal latitude={latitude} longitude={longitude} user={user}></CreatePostModal>
                     </div>
                 </div>
                 
@@ -185,7 +189,7 @@ export function Home() {
                 </MapContainer>
                 <div className="description">
                     <div>
-                        <EventView event_info={event_info_test}></EventView>
+                        <EventView user={user} event_info={event_info_test}></EventView>
                     </div>
                 </div>
             </div>

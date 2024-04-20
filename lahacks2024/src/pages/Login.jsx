@@ -12,16 +12,13 @@ import { useNavigate } from "react-router-dom";
 export function Login() {
     const [user, setUser] = useContext(authContext)
 
-    const login = () => {
-        setUser({ id: '1234' })
-    }
-
     function validate_login(credentials) {
         // fetch database credentials
         // placeholder data
         const users = [{user_id: "aliciachuang", password: "FloofyBoi<3"}]
         return users.some(function (item, index) {
             if (credentials.user_id === item.user_id && credentials.password === item.password){
+                setUser(credentials.user_id)
                 return true;
             }
         });
@@ -72,7 +69,6 @@ export function Login() {
                         <div>
                             <Button className="sign-in"
                                 onClick={() => {
-                                    login()
                                     console.log({"user_id":username, "password":password});
                                     const valid_login = validate_login({"user_id":username, "password":password});
                                     console.log("credential validation results")

@@ -7,7 +7,7 @@ import {
     ScrollView,
   } from 'react-native';
 
-export default function UserModal({num_interested}) {
+export default function UserModal({num_interested, user}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -28,13 +28,13 @@ export default function UserModal({num_interested}) {
         <Modal.Body>
             <ScrollView>
             <div>
-                <Reviews reviewee="Person A"></Reviews>
+                <Reviews user={user} reviewee="Person A"></Reviews>
                 <br></br>
                 <br></br>
-                <Reviews reviewee="Person B"></Reviews>
+                <Reviews user={user} reviewee="Person B"></Reviews>
                 <br></br>
                 <br></br>
-                <Reviews reviewee="Person C"></Reviews>
+                <Reviews user={user} reviewee="Person C"></Reviews>
             </div>
             </ScrollView>
         </Modal.Body>

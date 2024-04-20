@@ -7,3 +7,7 @@
 .set-font {
     font-family: "Georgia";
 }
+
+.score {
+    width: 70px;
+}

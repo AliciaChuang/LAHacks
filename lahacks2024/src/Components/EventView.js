@@ -11,7 +11,7 @@ const color_map = {
     "Trading": "primary",
 }
 
-export default function EventView({event_info}) {
+export default function EventView({event_info, user}) {
     return (
       <Box
         alignItems="center"
@@ -44,7 +44,7 @@ export default function EventView({event_info}) {
             </Button>
         </div>
         <div className="num-interested">
-            <UserModal num_interested={10}></UserModal>
+            <UserModal user={user} num_interested={10}></UserModal>
         </div>
       </Box>
     );
