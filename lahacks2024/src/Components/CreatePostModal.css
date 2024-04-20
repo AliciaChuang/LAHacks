@@ -1,0 +1,19 @@
+.font-georgia-create {
+    font-family:'Georgia';
+    font-size: 25px;  
+}
+
+.body-width {
+    border-left-width: 100px;
+    width: 400px;
+}
+
+.create-button {
+    background-color: #cbd0f5;
+    color: black;
+    opacity: 80%;
+    border-width: medium;
+    border-color: #7c87ca;
+    font-weight: bold;
+    font-size: 18px;
+}

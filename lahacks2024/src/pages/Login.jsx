@@ -12,7 +12,7 @@ export function Login() {
         <div className="login">
         <div className="header">
             <div className="title">
-                Pokémon Go Touch Some Grass
+                Pokémon Go Touch Grass
             </div>
         </div>
         <div className="login-main">

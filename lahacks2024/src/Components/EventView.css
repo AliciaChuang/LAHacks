@@ -1,0 +1,33 @@
+.info-bg {
+    background-color: #dfe2f2;
+    height: 550px;
+    width: 400px;
+    padding: 15px;
+}
+
+.fonts {
+    font-family: "Georgia";
+    font-weight: bold;
+    font-size: 18;
+}
+
+.event-title {
+    font-size: 26px;
+}
+
+.interested {
+    background-color: #bac1f3;
+    color: black;
+    opacity: 80%;
+    border-width: medium;
+    border-color: #7c87ca;
+    position: absolute;
+    top: 620px;
+    left: 1050px;
+}
+
+.num-interested {
+    position: absolute;
+    top: 620px;
+    left: 1160px;
+}
