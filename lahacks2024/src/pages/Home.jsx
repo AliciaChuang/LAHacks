@@ -14,6 +14,7 @@ import { Link } from "react-router-dom"
 import Button from 'react-bootstrap/Button';
 import { authContext } from "../auth"
 import { EventMarkersContext, EventMarkersProvider } from '../Components/EventMarkers'
+
 const Recenter = (props) => {
     const map = useMap();
 
@@ -37,7 +38,7 @@ export function Home() {
     const [latitude, setLatitude] = useState(33.645887)
     const [longitude, setLongitude] = useState(-117.842694)
     const [user] = useContext(authContext)
-    console.log(latitude, longitude)
+    // console.log(latitude, longitude)
 
     // Filter variables
     const [type, setType] = useState([])
@@ -46,6 +47,7 @@ export function Home() {
     const [endTime, setEndTime] = useState(dayjs('2022-04-17T23:00'))
 
     const eventMarkers = useContext(EventMarkersContext)["eventMarkers"]
+    console.log(eventMarkers)
 
     const handleFilterChange = () => {
         const new_filters = {
@@ -189,7 +191,7 @@ export function Home() {
                     <Recenter latitude={latitude} longitude={longitude} setLatitude={setLatitude} setLongitude={setLongitude} />
                     <EventMarkersProvider>
                         {eventMarkers.map((eventMarker) => (
-                            <Marker position={eventMarker.position} icon={getMarkerIcon(category_color_marker[eventMarker.event_category])}/>
+                            <Marker position={eventMarker.location} icon={getMarkerIcon(category_color_marker[eventMarker.category])}/>
                         ))}
                     </EventMarkersProvider>
                     <TileLayer 

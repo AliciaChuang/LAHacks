@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import * as React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import {MapContainer, TileLayer, useMapEvents, Marker } from 'react-leaflet'
 import "leaflet/dist/leaflet.css"
 import getMarkerIcon from '../Components/MarkerIcon';
+import { EventMarkersContext } from './EventMarkers';
 
 
 
@@ -56,6 +57,9 @@ export default function CreatePostModal(props) {
   const [markerLocation, setMarkerLocation] = useState(null);
   const [markerColor, setMarkerColor] = useState('purple');
 
+  const fetchEventMarkers = useContext(EventMarkersContext)["fetchEventMarkers"]
+
+
   const handleClose = () => {
     setShow(false);
     setMarkerLocation(null);
@@ -71,7 +75,13 @@ export default function CreatePostModal(props) {
       "location": markerLocation,
       "description": description
     }
-    // Call API
+    
+    fetch("http://localhost:8000/events", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(event_info)
+    }).then(fetchEventMarkers)
+
     console.log(event_info);
     setShow(false);
     setMarkerLocation(null);
