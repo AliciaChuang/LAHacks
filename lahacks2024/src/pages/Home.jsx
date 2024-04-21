@@ -44,7 +44,6 @@ export function Home() {
     const [latitude, setLatitude] = useState(33.645887)
     const [longitude, setLongitude] = useState(-117.842694)
     const [user] = useContext(authContext)
-    // console.log(latitude, longitude)
 
     // Filter variables
     const [type, setType] = useState([])
@@ -54,7 +53,7 @@ export function Home() {
     const [eventInfo, setEventInfo] = useState(null)
 
     const eventMarkers = useContext(EventMarkersContext)["eventMarkers"]
-    console.log(eventMarkers)
+    const setEventMarkers = useContext(EventMarkersContext)["setEventMarkers"]
 
     const pad = (num) => {
         num = num.toString();
@@ -62,25 +61,36 @@ export function Home() {
           return num;
     }
 
-    const event_info_test= {
-        name: "Bellsprout Community Day",
-        category: "Catching",
-        time: "14:00",
-        description: "Come catch bellsprouts with me! Will be walking around UCLA campus for ~2 hours."
-    };
-
     const handleMarkerClick = async (post_id) => {
-        // console.log('marker clicked', post_id)
-        let baseURL = "http://127.0.0.1:8000/events/?";
-        let params = new URLSearchParams({'post_id': post_id});
+        let baseURL = "http://127.0.0.1:8000/events/";
 
-        const url = baseURL + params.toString()
+        const url = baseURL + post_id
         console.log(url)
         
         const response = await fetch(url)
         const markerData = await response.json()
         setEventInfo(markerData["data"])
       }
+
+    const callFilterAPI = async (filter) => {
+        console.log(filter)
+        let baseURL = "http://127.0.0.1:8000/events/?";
+        let params = new URLSearchParams();
+
+        Object.entries(filter).forEach(([k, v]) => {
+        if (Array.isArray(v)) {
+            v.forEach(vv => params.append(k, vv))
+        } else params.append(k, v)
+        })
+        console.log(params.toString())
+
+        const url = baseURL + params.toString()
+        console.log(url)
+        
+        const response = await fetch(url)
+        const filterData = await response.json()
+        setEventMarkers(filterData["data"])
+    }
 
     const newStartTime = (e) => {
         setStartTime(`${pad(e.get('hour'))}:${pad(e.get('minute'))}`);
@@ -92,7 +102,7 @@ export function Home() {
             "user_id": user
         }
         // call API to update filters
-        console.log(new_filters)
+        callFilterAPI(new_filters)
     }
 
     const newEndTime = (e) => {
@@ -105,7 +115,7 @@ export function Home() {
             "user_id": user
         }
         // call API to update filters
-        console.log(new_filters)
+        callFilterAPI(new_filters)
     }
 
     const newType = (e) => {
@@ -117,7 +127,7 @@ export function Home() {
             "user_id": user
         }
         // call API to update filters
-        console.log(new_filters)
+        callFilterAPI(new_filters)
     }
 
     const newCategory = (e) => {
@@ -129,7 +139,7 @@ export function Home() {
             "user_id": user
         }
         // call API to update filters
-        console.log(new_filters)
+        callFilterAPI(new_filters)
     }
 
 

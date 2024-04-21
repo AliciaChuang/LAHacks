@@ -15,6 +15,18 @@ export default function EventView({event_info, user}) {
     const [interest, setInterest] = React.useState(false);
     const handleInterest = () => {
         setInterest(true);
+
+        const interested_info = {
+            "post_id": event_info.post_id,
+            "user_id": user
+        }
+
+        fetch("http://localhost:8000/interests/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(interested_info)
+        })
+        
         alert("Subscribed to event")
     }
 

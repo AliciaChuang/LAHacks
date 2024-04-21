@@ -1,5 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
+from typing import Annotated
+from pydantic import BaseModel
+
 import uuid
 import dynamodb_connect as ddb
 
@@ -79,12 +82,22 @@ test_event_randy = {
     }
   }
 }
-
+    
 @app.get("/events/")
-async def get_event(post_id = None):
-    if post_id != None:
-        return {"data": ddb.ddb_get_post(post_id)}
-    return {"data": [ddb.ddb_deserialize(test_event_alicia), ddb.ddb_deserialize(test_event_randy)]}
+async def get_event(type: Annotated[list[str] | None, Query()] = None, 
+                    category: Annotated[list[str] | None, Query()] = None, 
+                    start_time = None, end_time = None, user_id = None):
+    if type == None or category == None:
+        return {"data": []} # no markers, empty list
+    else:
+        filter = {"type": type if type != None else [], "category": category if category != None else [],
+                  "start_time": start_time, "end_time": end_time, "user_id": user_id}
+        filtered_posts = ddb.ddb_get_filtered_posts(filter)
+        return {"data": filtered_posts}
+
+@app.get("/events/{post_id}")
+async def get_event(post_id):
+    return {"data": ddb.ddb_get_post(post_id)}
 
 @app.post("/events/")
 async def add_event(event: dict):
@@ -102,3 +115,8 @@ async def get_user(user_id, password):
 async def add_user(user: dict):
     ddb.ddb_create_account(user)
     return {"data": {"status": "success", "code": 200, "user": user}}
+
+@app.post("/interests/")
+async def add_interest(interest: dict):
+    ddb.ddb_add_interest(interest)
+    return {"data": {"status": "success", "code": 200, "interest": interest}}

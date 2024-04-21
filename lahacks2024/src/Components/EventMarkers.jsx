@@ -1,7 +1,7 @@
 import React, { useState, createContext, useEffect } from "react";
 
 export const EventMarkersContext = createContext({
-  eventMarkers: [], fetchEventMarkers: () => {}
+  eventMarkers: [], fetchEventMarkers: () => {}, setEventMarkers: () => {}
 });
 
 export function EventMarkersProvider(props) {
@@ -18,7 +18,7 @@ export function EventMarkersProvider(props) {
   }, [])
 
   return (
-    <EventMarkersContext.Provider value={{ eventMarkers, fetchEventMarkers }}>
+    <EventMarkersContext.Provider value={{ eventMarkers, fetchEventMarkers, setEventMarkers }}>
       {props.children}
     </EventMarkersContext.Provider>
   );
