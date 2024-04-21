@@ -15,8 +15,6 @@ import getMarkerIcon from '../Components/MarkerIcon';
 import { EventMarkersContext } from './EventMarkers';
 
 
-
-
 const event_category = [
     {
       value: 'Raiding',
@@ -87,7 +85,7 @@ export default function CreatePostModal(props) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(event_info)
-    }).then(fetchEventMarkers)
+    })
 
     // console.log(event_info);
     setShow(false);
