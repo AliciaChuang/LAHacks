@@ -1,12 +1,25 @@
 import boto3
 client = boto3.client('dynamodb')
+boto3.resource('dynamodb')
 
-def ddb_get(key, table_name):
-    response = client.get_item(
-        Key=key, TableName=table_name,
+def ddb_get_post(post_id):
+    response = client.query(
+        ExpressionAttributeValues={
+            ':id': {
+                'S': post_id,
+            },
+        },
+        KeyConditionExpression='post_id = :id',
+        TableName='PogoPosts'
     )
-    return response.get("Item")
+    marker_data = ddb_deserialize(response.get("Items")[0])
+    return marker_data
 
+def ddb_deserialize(low_level_data):
+    deserializer = boto3.dynamodb.types.TypeDeserializer()
+    python_data = {k: deserializer.deserialize(v) for k,v in low_level_data.items()}
+    return python_data
+    
 def ddb_update(update_info):
     client.update_item(
     ExpressionAttributeNames=update_info.get("expression_attribute_names"),
@@ -88,9 +101,6 @@ def ddb_login_validation(raw_info):
     if response.get("Count") != 0:
         return True
     else:
-<<<<<<< Updated upstream
-        return False
-=======
         return False
     
 
@@ -111,4 +121,3 @@ def ddb_add_interest(raw_info):
         "update_expression": "SET #P = :p"
     }
     ddb_update(update_new_interest_info)
->>>>>>> Stashed changes

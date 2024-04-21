@@ -51,6 +51,7 @@ export function Home() {
     const [category, setCategory] = useState([])
     const [startTime, setStartTime] = useState('00:00')
     const [endTime, setEndTime] = useState('23:00')
+    const [eventInfo, setEventInfo] = useState(null)
 
     const eventMarkers = useContext(EventMarkersContext)["eventMarkers"]
     console.log(eventMarkers)
@@ -61,17 +62,25 @@ export function Home() {
           return num;
     }
 
-    // const handleFilterChange = () => {
-    //     const new_filters = {
-    //         "type": type,
-    //         "category": category,
-    //         "start_time": startTime,
-    //         "end_time": endTime,
-    //         "user_id": user
-    //     }
-    //     // call API to update filters
-    //     console.log(new_filters)
-    // }
+    const event_info_test= {
+        name: "Bellsprout Community Day",
+        category: "Catching",
+        time: "14:00",
+        description: "Come catch bellsprouts with me! Will be walking around UCLA campus for ~2 hours."
+    };
+
+    const handleMarkerClick = async (post_id) => {
+        // console.log('marker clicked', post_id)
+        let baseURL = "http://127.0.0.1:8000/events/?";
+        let params = new URLSearchParams({'post_id': post_id});
+
+        const url = baseURL + params.toString()
+        console.log(url)
+        
+        const response = await fetch(url)
+        const markerData = await response.json()
+        setEventInfo(markerData["data"])
+      }
 
     const newStartTime = (e) => {
         setStartTime(`${pad(e.get('hour'))}:${pad(e.get('minute'))}`);
@@ -146,13 +155,6 @@ export function Home() {
         "Trading": "primary",
     };
 
-    const event_info_test= {
-        name: "Bellsprout Community Day",
-        category: "Catching",
-        time: "14:00",
-        description: "Come catch bellsprouts with me! Will be walking around UCLA campus for ~2 hours."
-    };
-
     const category_color_marker = {
         "Catching": "green",
         "Raiding": "red",
@@ -219,7 +221,15 @@ export function Home() {
                     <Recenter user={user} latitude={latitude} longitude={longitude} setLatitude={setLatitude} setLongitude={setLongitude} />
                     <EventMarkersProvider>
                         {eventMarkers.map((eventMarker) => (
-                            <Marker position={eventMarker.location} icon={getMarkerIcon(category_color_marker[eventMarker.category])}/>
+                            <Marker
+                                position={eventMarker.location} 
+                                icon={getMarkerIcon(category_color_marker[eventMarker.category])}
+                                eventHandlers={{
+                                    click: () => handleMarkerClick(eventMarker.post_id),
+                                  }}
+                                key={eventMarker.post_id}
+                                data={eventMarker.post_id}
+                            />
                         ))}
                     </EventMarkersProvider>
                     <TileLayer 
@@ -229,7 +239,7 @@ export function Home() {
                 </MapContainer>
                 <div className="description">
                     <div>
-                        <EventView user={user} event_info={event_info_test}></EventView>
+                        {eventInfo !== null ?<EventView user={user} event_info={eventInfo}></EventView> : null}
                     </div>
                 </div>
             </div>

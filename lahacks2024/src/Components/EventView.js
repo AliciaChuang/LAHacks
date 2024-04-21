@@ -27,7 +27,7 @@ export default function EventView({event_info, user}) {
         <div className='fonts'>
             <br></br>
             <div className='event-title'>
-                {event_info.name}
+                {event_info.event_name}
             </div>
             <br></br>
             <div>
@@ -35,7 +35,7 @@ export default function EventView({event_info, user}) {
             </div>
             <br></br>
             Time: &nbsp;
-            {event_info.time}
+            {event_info.event_time}
             <br></br>
             <br></br>
             Event Description: 
