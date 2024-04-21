@@ -88,4 +88,27 @@ def ddb_login_validation(raw_info):
     if response.get("Count") != 0:
         return True
     else:
+<<<<<<< Updated upstream
         return False
+=======
+        return False
+    
+
+def ddb_add_interest(raw_info):
+    update_new_interest_info = {
+        "expression_attribute_names": {
+            '#P': 'post_id'
+        },
+        "expression_attribute_values": {
+            ':p': {'S': raw_info.get("post_id")},
+        },
+        "key": {
+            'user_id': {
+                'S': raw_info.get("user_id"),
+            },
+        },
+        "table_name": "PogoInterested",
+        "update_expression": "SET #P = :p"
+    }
+    ddb_update(update_new_interest_info)
+>>>>>>> Stashed changes

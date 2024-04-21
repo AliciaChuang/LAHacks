@@ -49,7 +49,7 @@ export default function EventView({event_info, user}) {
                 Interested
             </Button>
             <div className="num-interested">
-                <UserModal user={user} num_interested={10}></UserModal>
+                <UserModal user={user} num_interested={3}></UserModal>
             </div>
         </div>
       </Box>

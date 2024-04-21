@@ -13,6 +13,8 @@ export default function UserModal({num_interested, user}) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const attendees = ["Ru Manoharan", "Brian Lin", "Glendon Thai"] //Replace with API call 
+
   return (
     <>
       <div className='font-georgia-create'>
@@ -21,20 +23,22 @@ export default function UserModal({num_interested, user}) {
         </Button>
       </div>
 
-      <Modal show={show} onHide={handleClose} animation={false}>
+      <Modal className='size-adjust' show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>Attendees</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <ScrollView>
             <div>
-                <Reviews user={user} reviewee="Person A"></Reviews>
-                <br></br>
-                <br></br>
-                <Reviews user={user} reviewee="Person B"></Reviews>
-                <br></br>
-                <br></br>
-                <Reviews user={user} reviewee="Person C"></Reviews>
+                {attendees.map(function(attendee) {
+                    return (
+                        <div>
+                        <Reviews user={user} reviewee={attendee}></Reviews>
+                        <br></br>
+                        <br></br>
+                        </div>
+                    )
+                })}
             </div>
             </ScrollView>
         </Modal.Body>

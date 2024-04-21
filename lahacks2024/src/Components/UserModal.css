@@ -2,3 +2,8 @@
     font-family:'Georgia';
     font-size: 25px;  
 }
+
+.size-adjust {
+    width: 100%;
+    justify-content: center;
+}

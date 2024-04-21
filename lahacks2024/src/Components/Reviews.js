@@ -39,41 +39,59 @@ export default function Reviews({reviewee, user}) {
             <Accordion>
                 <AccordionSummary>
                     <Box>
-                        <div className='reviewee-id'>
+                        <div className='subheader'>
                             {reviewee}
+                            <br></br>
+                            4.6
                         </div>
-                            5.0
-                            <br></br>
-                            <br></br>
                     </Box>
                 </AccordionSummary>
                 <AccordionDetails>
                 <Accordion>
-                    <ScrollView>
                         <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="review-content"
                         id="review-header"
                         >
+                        <div className='subheader'>
                         Reviews
+                        </div>
                         </AccordionSummary>
                         <AccordionDetails>
-                            Placeholder content. Replace with actual reviews using map function
+                            <Box>
+                                Score: 5
+                                <br></br>
+                                Was a great person to play Pokemon Go with. Caught a lot of good Pokemon during our walk and also stopped by Albertsons.
+                            </Box>
+                            <br></br>
+                            <Box>
+                                Score: 1
+                                <br></br>
+                                Didn't show up for a raid that they said they would be doing, so I ended up not being able to beat it.
+                            </Box>
+                            <br></br>
+                            <Box>
+                                Score: 4
+                                <br></br>
+                                Went well. Did a raid together.
+                            </Box>
                         </AccordionDetails>
-                    </ScrollView>
                 </Accordion>
-                <Box>
-                    <div>
-                        <br></br>
-                        Leave Review
-                        <br></br>
+                <br></br>
+                <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <div className='subheader'>
+                            Leave Review
+                        </div>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        Rating: &nbsp;
                         <Select
                         labelId="select-score"
                         id="select-score"
                         className='score'
                         value={score}
-                        onChange={handleChange}
-                        label="Score">
+                        onChange={handleChange}>
                             <MenuItem value={1}>1</MenuItem>
                             <MenuItem value={2}>2</MenuItem>
                             <MenuItem value={3}>3</MenuItem>
@@ -82,6 +100,7 @@ export default function Reviews({reviewee, user}) {
                         </Select>
                         <br></br>
                         <br></br>
+                        Comments: 
                         <TextField
                             id="review"
                             className="input-width"
@@ -90,8 +109,8 @@ export default function Reviews({reviewee, user}) {
                         <br></br>
                         <br></br>
                         <Button onClick={updateReview}>Post</Button>
-                    </div>
-                </Box>
+                    </AccordionDetails>
+                </Accordion>
                 </AccordionDetails>
             </Accordion>
         </Box>
