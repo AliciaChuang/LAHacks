@@ -12,15 +12,15 @@ export function Login() {
     const [user, setUser] = useContext(authContext)
 
     function validate_login(credentials) {
-        // fetch database credentials
-        // placeholder data
-        const users = [{user_id: "aliciachuang", password: "FloofyBoi<3"}]
-        return users.some(function (item, index) {
-            if (credentials.user_id === item.user_id && credentials.password === item.password){
-                setUser(credentials.user_id)
-                return true;
-            }
-        });
+        // call validate api
+        const valid_login = 1 // replace with validate api
+        if (valid_login){
+            setUser(credentials.user_id)
+            return true;
+        }
+        else{
+            return false
+        }
     }
     const navigate = useNavigate();
 
