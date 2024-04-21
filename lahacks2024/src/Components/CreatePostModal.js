@@ -59,6 +59,12 @@ export default function CreatePostModal(props) {
 
   const fetchEventMarkers = useContext(EventMarkersContext)["fetchEventMarkers"]
 
+  const pad = (num) => {
+    num = num.toString();
+      while (num.length < 2) num = "0" + num;
+      return num;
+  }
+
 
   const handleClose = () => {
     setShow(false);
@@ -141,7 +147,7 @@ export default function CreatePostModal(props) {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <TimePicker
                     defaultValue={dayjs('2022-04-17T00:00')}
-                    onChange={(e) => {setEventTime(`${e.get('hour')}:${e.get('minute')}`)}}
+                    onChange={(e) => {setEventTime(`${pad(e.get('hour'))}:${pad(e.get('minute'))}`)}}
                     ampm={false}
                     />
             </LocalizationProvider>
