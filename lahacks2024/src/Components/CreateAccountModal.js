@@ -7,12 +7,20 @@ import "./CreateAccountModal.css"
 export default function CreateAccountModal() {
   const [show, setShow] = useState(false);
 
-  function handleClose() {
+  function createAccount() {
     // Store new user info in database
     const user_info = {"user_id": username, "password": password, "friend_code": friend_code, "game_name":game_name}
-    console.log(user_info)
+    fetch("http://localhost:8000/users/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user_info)
+    })
     setShow(false);
   }
+  function handleClose() {
+    setShow(false);
+  }
+  
   const handleShow = () => setShow(true);
 
   // Create account variables
@@ -77,7 +85,7 @@ export default function CreateAccountModal() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={createAccount}>
             Create Account
           </Button>
         </Modal.Footer>

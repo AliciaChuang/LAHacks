@@ -81,14 +81,15 @@ export default function CreatePostModal(props) {
       "location": markerLocation,
       "description": description
     }
+    console.log(event_info);
     
-    fetch("http://localhost:8000/events", {
+    fetch("http://localhost:8000/events/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(event_info)
     }).then(fetchEventMarkers)
 
-    console.log(event_info);
+    // console.log(event_info);
     setShow(false);
     setMarkerLocation(null);
     setMarkerColor('purple');

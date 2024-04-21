@@ -14,11 +14,17 @@ import { Link } from "react-router-dom"
 import Button from 'react-bootstrap/Button';
 import { authContext } from "../auth"
 import { EventMarkersContext, EventMarkersProvider } from '../Components/EventMarkers'
+import { useNavigate } from "react-router-dom";
 
 const Recenter = (props) => {
     const map = useMap();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        if (props.user === undefined) {
+            navigate("/");
+            return;
+        }
         navigator.geolocation.getCurrentPosition( (position) => {
             props.setLatitude(position.coords.latitude);
             props.setLongitude(position.coords.longitude);
@@ -43,17 +49,36 @@ export function Home() {
     // Filter variables
     const [type, setType] = useState([])
     const [category, setCategory] = useState([])
-    const [startTime, setStartTime] = useState(dayjs('2022-04-17T00:00'))
-    const [endTime, setEndTime] = useState(dayjs('2022-04-17T23:00'))
+    const [startTime, setStartTime] = useState('00:00')
+    const [endTime, setEndTime] = useState('23:00')
 
     const eventMarkers = useContext(EventMarkersContext)["eventMarkers"]
     console.log(eventMarkers)
 
-    const handleFilterChange = () => {
+    const pad = (num) => {
+        num = num.toString();
+          while (num.length < 2) num = "0" + num;
+          return num;
+    }
+
+    // const handleFilterChange = () => {
+    //     const new_filters = {
+    //         "type": type,
+    //         "category": category,
+    //         "start_time": startTime,
+    //         "end_time": endTime,
+    //         "user_id": user
+    //     }
+    //     // call API to update filters
+    //     console.log(new_filters)
+    // }
+
+    const newStartTime = (e) => {
+        setStartTime(`${pad(e.get('hour'))}:${pad(e.get('minute'))}`);
         const new_filters = {
             "type": type,
             "category": category,
-            "start_time": startTime,
+            "start_time": `${pad(e.get('hour'))}:${pad(e.get('minute'))}`,
             "end_time": endTime,
             "user_id": user
         }
@@ -61,14 +86,17 @@ export function Home() {
         console.log(new_filters)
     }
 
-    const newStartTime = (e) => {
-        setStartTime(e);
-        handleFilterChange();
-    }
-
     const newEndTime = (e) => {
-        setEndTime(e);
-        handleFilterChange();
+        setEndTime(`${pad(e.get('hour'))}:${pad(e.get('minute'))}`);
+        const new_filters = {
+            "type": type,
+            "category": category,
+            "start_time": startTime,
+            "end_time": `${pad(e.get('hour'))}:${pad(e.get('minute'))}`,
+            "user_id": user
+        }
+        // call API to update filters
+        console.log(new_filters)
     }
 
     const newType = (e) => {
@@ -188,7 +216,7 @@ export function Home() {
                 </div>
                 
                 <MapContainer center={[latitude, longitude]} zoom={17}>
-                    <Recenter latitude={latitude} longitude={longitude} setLatitude={setLatitude} setLongitude={setLongitude} />
+                    <Recenter user={user} latitude={latitude} longitude={longitude} setLatitude={setLatitude} setLongitude={setLongitude} />
                     <EventMarkersProvider>
                         {eventMarkers.map((eventMarker) => (
                             <Marker position={eventMarker.location} icon={getMarkerIcon(category_color_marker[eventMarker.category])}/>

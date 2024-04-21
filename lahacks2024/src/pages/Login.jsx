@@ -11,9 +11,18 @@ import { useNavigate } from "react-router-dom";
 export function Login() {
     const [user, setUser] = useContext(authContext)
 
-    function validate_login(credentials) {
+    async function validate_login(credentials) {
         // call validate api
-        const valid_login = 1 // replace with validate api
+        let baseURL = "http://127.0.0.1:8000/users/?";
+        let params = new URLSearchParams(credentials);
+
+        const url = baseURL + params.toString()
+        console.log(url)
+
+        const response = await fetch(url)
+        const validationData = await response.json()
+
+        const valid_login = validationData["data"]["status"]
         if (valid_login){
             setUser(credentials.user_id)
             return true;
@@ -66,15 +75,17 @@ export function Login() {
                         </div>
                         <div>
                             <Button className="sign-in"
-                                onClick={() => {
+                                onClick={async () => {
                                     console.log({"user_id":username, "password":password});
-                                    const valid_login = validate_login({"user_id":username, "password":password});
+                                    const valid_login = await validate_login({"user_id":username, "password":password});
                                     console.log("credential validation results")
                                     console.log(valid_login)
                                     if (valid_login) {
+                                        console.log("Success")
                                         navigate("./home")
                                     }
                                     else {
+                                        console.log("Failed")
                                         alert("Invalid credentials")
                                     }
                                 }}

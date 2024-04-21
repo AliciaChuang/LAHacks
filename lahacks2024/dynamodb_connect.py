@@ -89,5 +89,3 @@ def ddb_login_validation(raw_info):
         return True
     else:
         return False
-    
-print(ddb_create_account({"user_id": "agchuang", "password": "12345", "friend_code": "", "game_name": "AliciaGChuang"}))

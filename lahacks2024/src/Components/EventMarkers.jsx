@@ -8,9 +8,10 @@ export function EventMarkersProvider(props) {
   const [eventMarkers, setEventMarkers] = useState([])
   
   const fetchEventMarkers = async () => {
-    const response = await fetch("http://127.0.0.1:8000/events")
+    const response = await fetch("http://127.0.0.1:8000/events/")
     const eventMarkersData = await response.json()
     setEventMarkers(eventMarkersData["data"])
+    console.log("feteched")
   }
 
   useEffect(() => {
